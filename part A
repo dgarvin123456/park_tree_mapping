@@ -7,3 +7,12 @@ library(dplyr)
 tree_points <- read.csv("D:/Users/dgarvin/Desktop/r/github2/data/Cambridge_Tree_Cleaned.csv")
 # Convert to sf object assuming coordinates are in longitude/latitude (WGS84)
 trees_sf <- st_as_sf(tree_points, coords = c("Longitude", "Latitude"), crs = 4326)
+# Transform for consistency (technically already in 4326, but this is here if you change CRS later)
+trees_geo <- st_transform(trees_sf, 4326)
+# Load and transform parks data (replace with your actual file path)
+parks <- st_read("D:/Users/dgarvin/Desktop/r/github2/data/RECREATION_OpenSpace.shp")
+parks_geo <- st_transform(parks, 4326)
+# Make sure geometries are valid
+trees_geo <- st_make_valid(trees_geo)
+parks_geo <- st_make_valid(parks_geo)
+
